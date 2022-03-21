@@ -1,13 +1,14 @@
 #!/bin/bash
-URL="http://localhost/Dodos/index.php/"
 page=$1
-URL_page='"'$URL$page'/"'
-echo $URL_page
-id=`curl 'http://localhost/Dodos/?rest_route=/wp/v2/pages/' | jq '.[] | select(.link=='$URL_page') | .id'`
-echo $id
 
-
+#récuperation de la racine de l'url $1
 json="?rest_route=/wp/v2/"
 URL_json=$1$json
-test=`curl $URL_json | jq '._links.up | .[0].href'`
-echo $test;
+racine=`curl $URL_json | jq '._links.up | .[0].href'`
+sans_json=$(echo $racine | awk '{ print substr( $0, 1, length($0)-9 ) }' | sed 's/^.//')
+
+
+# récuperation de l'id
+id=`curl $sans_json'?rest_route=/wp/v2/pages/' | jq '.[] | select(.link=="'$1'") | .id'`
+echo $id
+
