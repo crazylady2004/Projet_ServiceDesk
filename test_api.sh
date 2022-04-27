@@ -11,7 +11,9 @@ racine_url=$(echo $original_url | awk '{ print substr( $0, 1, length($0)-9 ) }' 
 id=`curl $racine_url'wp-json/wp/v2/pages/' | jq '.[] | select(.link=="'$URL'") | .id'`
 echo $id
 
-
+#nom de la page
+name_page=`curl $racine_url'wp-json/wp/v2/pages/'$id | jq '.slug'`
+echo $name_page
 
 #récup. date_modified / ID_Users
 # Tab_wp=`wp db query --skip-column-names "SELECT post_author, post_modified FROM wp_posts WHERE post_parent=77 and post_type='revision' ORDER by post_date limit 1"`
