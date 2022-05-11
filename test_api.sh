@@ -14,6 +14,8 @@ id=`curl $racine_url'wp-json/wp/v2/pages/?per_page=20' | jq '.[] | select(.link=
 requet_tab=`wp db query --skip-column-names "SELECT post_author, post_modified FROM wp_posts WHERE post_parent=$id and post_type='revision' ORDER by post_date desc limit 1"`
 Tableau=($requet_tab)
 
+
+
 # récuperation du user_name
 # "curl https://migration-wp.epfl.ch/emilie/wp-json/wp/v2/users/3 | jq '.name'"
 user_name=`curl $racine_url'wp-json/wp/v2/users/'${Tableau[0]} | jq '.name'`
