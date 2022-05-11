@@ -1,13 +1,15 @@
 <?php
   
 add_action( 'rest_api_init', function() {
-        register_rest_route( 'test/v2', 'toto', array (
+        register_rest_route( 'test/v2', 'toto/(?<id>.*)', array (
                 'method'   => WP_REST_Server::READABLE,
-                'callback' => 'awhitepixel_rest_route_getsomedata'
+                'callback' => 'get_test'
         ) );
 } );
-function awhitepixel_rest_route_getsomedata($post_ID) {
-        $titre = get_the_title(135);
+function get_test($request) {
+        $titre = get_the_title($request['id']);
+
         return rest_ensure_response ($titre);
+
 
 }
